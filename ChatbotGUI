@@ -1,0 +1,142 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.time.LocalTime;
+
+public class ChatbotGUI extends JFrame implements ActionListener {
+
+    JTextArea chatArea;
+    JTextField inputField;
+    JButton sendButton;
+
+    public ChatbotGUI() {
+
+        setTitle("Smart Assistant Chatbot");
+        setSize(500, 550);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+   
+        JLabel titleLabel = new JLabel("Smart Assistant Chatbot", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        add(titleLabel, BorderLayout.NORTH);
+
+       
+        chatArea = new JTextArea();
+        chatArea.setEditable(false);
+        chatArea.setFont(new Font("Arial", Font.PLAIN, 16));
+
+        JScrollPane scrollPane = new JScrollPane(chatArea);
+        add(scrollPane, BorderLayout.CENTER);
+
+      
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
+
+        inputField = new JTextField();
+        bottomPanel.add(inputField, BorderLayout.CENTER);
+
+        sendButton = new JButton("Send");
+        sendButton.addActionListener(this);
+        bottomPanel.add(sendButton, BorderLayout.EAST);
+
+        add(bottomPanel, BorderLayout.SOUTH);
+
+     
+        chatArea.append("Bot: Welcome to Smart Chatbot!\n");
+        chatArea.append("Bot: Chat history is being saved.\n");
+        chatArea.append("Bot: Type 'calc 5 + 3' for calculations.\n\n");
+
+        setVisible(true);
+    }
+
+
+    private String getBotResponse(String message) {
+
+        message = message.toLowerCase();
+
+         if (message.contains("hello") || message.contains("hi")) {
+            return "Hello admin! How are you?";
+        }
+
+        else if (message.contains("course")) {
+            return "You are studying XYZ.";
+        }
+
+        else if (message.contains("java")) {
+            return "Java is an object-oriented programming language.";
+        }
+
+        else if (message.contains("ai")) {
+            return "AI stands for Artificial Intelligence.";
+        }
+
+        else if (message.contains("bye")) {
+            return "Goodbye! Have a great day.";
+        }
+
+       else if (message.contains("time")) {
+
+            return "Current Time: " + LocalTime.now().withNano(0);
+        }
+
+        else {
+            return "Sorry, I don't understand.";
+        }
+       
+
+
+        else if (message.startsWith("calc")) {
+
+            try {
+
+                String expression = message.substring(5);
+
+                String[] parts = expression.split(" ");
+
+                double num1 = Double.parseDouble(parts[0]);
+                String operator = parts[1];
+                double num2 = Double.parseDouble(parts[2]);
+
+                switch (operator) {
+
+                    case "+":
+                        return "Result: " + (num1 + num2);
+
+                    case "-":
+                        return "Result: " + (num1 - num2);
+
+                    case "*":
+                        return "Result: " + (num1 * num2);
+
+                    case "/":
+
+                        if (num2 == 0) {
+
+                            return "Cannot divide by zero!";
+                        }
+
+                        return "Result: " + (num1 / num2);
+
+                    default:
+                        return "Invalid operator!";
+                }
+
+            } catch (Exception e) {
+
+                return "Use format: calc 5 + 3";
+            }
+        }
+
+ 
+        else {
+
+            return "Sorry, I don't understand.";
+        }
+    }
+
+
+        }
+    }
+}
